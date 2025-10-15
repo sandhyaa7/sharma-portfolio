@@ -1,0 +1,142 @@
+/* ====== General ====== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f0fdfa;
+    color: #333;
+}
+
+header {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #009a9a;
+    color: #fff;
+}
+
+header h1 {
+    margin: 0.5rem 0;
+}
+
+header p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* ====== Search & Filter Sections ====== */
+#search, #filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+#search input, #filter select {
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 400px;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+/* ====== Recipe List Horizontal Layout ====== */
+#recipe-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;        /* cards wrap to next line */
+    justify-content: center; /* center cards horizontally */
+    gap: 1rem;              /* space between cards */
+}
+
+#recipe-list li {
+    background-color: #fff;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    width: 200px;            /* fixed width for horizontal layout */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+#recipe-list li:focus,
+#recipe-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    outline: 3px solid #0c0c0c;
+    outline-offset: 2px;
+}
+
+/* Category Badges */
+.category-badge {
+    background-color: #009a9a;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+/* ====== Modal Styles ====== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    outline: none;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    outline: none;
+    position: relative;
+}
+
+.modal .close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #005f5f;
+    transition: color 0.2s;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+    color: #090908;
+    outline: none;
+}
+
+/* ====== Accessibility Focus Styles ====== */
+#recipe-list li:focus,
+.modal-content:focus,
+.modal .close:focus {
+    outline: 3px solid #070707;
+    outline-offset: 2px;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 600px) {
+    #recipe-list li {
+        width: 90%;           /* full width on small screens */
+    }
+}

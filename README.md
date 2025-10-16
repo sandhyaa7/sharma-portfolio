@@ -9,7 +9,7 @@ I am an aspiring web developer with a background in software development and dig
 
 - **Location:** Madison, Wisconsin
 - **LinkedIn:** [Sandhya Sharma](https://www.linkedin.com/in/sandhyasharma7)
-- **GitHub:** [sandhyaa7](https://github.com/sandhyaa7)
+- **GitHub:** [sandhyaa7](https://sandhyaa7.github.io/sharma-portfolio/)
 
 ---
 

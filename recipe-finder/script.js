@@ -1,9 +1,8 @@
 // ====== Elements ======
 const recipeList = document.getElementById('recipe-list');
-const recipes = recipeList.querySelectorAll('li');
-
 const categoryFilter = document.getElementById('category-filter');
 const searchInput = document.getElementById('recipe-search');
+const vegetarianCheckbox = document.getElementById('vegetarian-only');
 
 // ====== Modal Setup ======
 const modal = document.createElement('div');
@@ -25,7 +24,6 @@ const modalContent = modal.querySelector('.modal-content');
 const modalTitle = modal.querySelector('#modalTitle');
 const modalDescription = modal.querySelector('#modalDescription');
 const closeButton = modal.querySelector('.close');
-
 let lastFocusedElement = null;
 
 // ====== Open & Close Modal ======
@@ -44,17 +42,7 @@ function closeModal() {
     if (lastFocusedElement) lastFocusedElement.focus();
 }
 
-// ====== Modal Event Listeners ======
-recipes.forEach(recipe => {
-    recipe.addEventListener('click', () => openModal(recipe.textContent.trim(), recipe.dataset.category));
-    recipe.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openModal(recipe.textContent.trim(), recipe.dataset.category);
-        }
-    });
-});
-
+// Close modal events
 closeButton.addEventListener('click', closeModal);
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
@@ -77,21 +65,64 @@ modal.addEventListener('keydown', (e) => {
     }
 });
 
-// ====== Filter & Search Functionality ======
-function filterRecipes() {
-    const selectedCategory = categoryFilter.value.toLowerCase();
-    const searchTerm = searchInput.value.toLowerCase();
+// ====== Fetch & Display Recipes from API ======
+async function fetchRecipes(query, category, vegetarianOnly) {
+    const apiKey = '8f5fec2802554853a412e673880c1ff1'; // <-- Add your API key here
+    let url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=10&addRecipeInformation=true`;
+
+    if (query) url += `&query=${query}`;
+    if (category && category !== 'all') url += `&type=${category}`;
+    if (vegetarianOnly) url += `&diet=vegetarian`; // Filter for vegetarian recipes
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        displayRecipes(data.results);
+    } catch (error) {
+        recipeList.innerHTML = "<li>Error fetching recipes. Please try again.</li>";
+        console.error(error);
+    }
+}
+
+function displayRecipes(recipes) {
+    recipeList.innerHTML = ''; // Clear previous results
+
+    if (!recipes || recipes.length === 0) {
+        recipeList.innerHTML = '<li>No recipes found.</li>';
+        return;
+    }
 
     recipes.forEach(recipe => {
-        const name = recipe.textContent.toLowerCase();
-        const category = recipe.dataset.category.toLowerCase();
+        const li = document.createElement('li');
+        li.tabIndex = 0;
+        li.dataset.category = recipe.dishTypes && recipe.dishTypes.length > 0 ? recipe.dishTypes[0] : 'main';
+        li.innerHTML = `${recipe.title}<span class="category-badge">${li.dataset.category}</span>`;
+        recipeList.appendChild(li);
 
-        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
-        const matchesSearch = name.includes(searchTerm);
-
-        recipe.style.display = matchesCategory && matchesSearch ? 'flex' : 'none';
+        // Attach modal events
+        li.addEventListener('click', () => openModal(recipe.title, li.dataset.category));
+        li.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openModal(recipe.title, li.dataset.category);
+            }
+        });
     });
 }
 
-categoryFilter.addEventListener('change', filterRecipes);
-searchInput.addEventListener('input', filterRecipes);
+// ====== Event Listeners for Search, Filter & Vegetarian Only ======
+categoryFilter.addEventListener('change', () => {
+    fetchRecipes(searchInput.value, categoryFilter.value, vegetarianCheckbox.checked);
+});
+
+searchInput.addEventListener('input', () => {
+    fetchRecipes(searchInput.value, categoryFilter.value, vegetarianCheckbox.checked);
+});
+
+vegetarianCheckbox.addEventListener('change', () => {
+    fetchRecipes(searchInput.value, categoryFilter.value, vegetarianCheckbox.checked);
+});
+
+// ====== Initial Load ======
+fetchRecipes('', 'all', vegetarianCheckbox.checked);
+

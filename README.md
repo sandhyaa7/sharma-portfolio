@@ -8,7 +8,7 @@ Welcome to my web development portfolio! This site showcases my journey in web d
 I am an aspiring web developer with a background in software development and digital accessibility. I am passionate about creating accessible, user-friendly, and efficient web applications. My goal is to continuously upskill in web development, QA testing, and API integration.
 
 - **Location:** Madison, Wisconsin
-- **LinkedIn:** [Sandhya Sharma](https://www.linkedin.com/in/sandhyasharma7)
+- **LinkedIn:** [Sandhya Sharma](https://www.linkedin.com/in/sandhyaa7)
 - **GitHub:** [sandhyaa7](https://sandhyaa7.github.io/sharma-portfolio/)
 
 ---
@@ -26,7 +26,7 @@ I am an aspiring web developer with a background in software development and dig
 |--------|-------------|-------------|------------------|
 | **Portfolio Website** | Personal portfolio to showcase learning journey and projects | HTML, CSS, JS, Streamlit | [GitHub](https://github.com/sandhyaa7/sharma-portfolio) ![Live](https://img.shields.io/badge/Live-Streamlit-brightgreen) |
 | **Movie Finder App** | Search and display movies using an external API | Python, Streamlit, API integration | [GitHub](https://github.com/sandhyaa7/movie-finder) ![Live](https://img.shields.io/badge/Live-Streamlit-brightgreen) |
-|| | | |
+| **Accessible Recipe Finder** | Search vegetarian recipes with ingredient and category filters. Dynamic and accessible with modals and keyboard navigation. | HTML, CSS, JS, Spoonacular API | [GitHub](https://github.com/sandhyaa7/recipe-finder) ![Live](https://img.shields.io/badge/Live-Coming%20Soon-orange) |
 
 ---
 

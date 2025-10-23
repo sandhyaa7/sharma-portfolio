@@ -10,7 +10,7 @@
 
     <header>
         <h1>Accessible Recipe Finder</h1>
-        <p>Search and explore recipes with accessibility in mind.</p>
+        <p>Search and explore vegetarian recipes with accessibility in mind.</p>
     </header>
 
     <main>
@@ -31,14 +31,18 @@
             </select>
         </section>
 
+        <!-- Vegetarian Only Filter -->
+        <section id="vegetarian-filter">
+            <label for="vegetarian-only">
+                <input type="checkbox" id="vegetarian-only" aria-label="Show only vegetarian recipes">
+                Vegetarian Only
+            </label>
+        </section>
+
         <!-- Recipe List -->
         <section id="recipes">
             <ul id="recipe-list">
-                <li tabindex="0" data-category="main">Spaghetti Bolognese<span class="category-badge">Main Course</span></li>
-                <li tabindex="0" data-category="main">Vegetable Stir Fry<span class="category-badge">Main Course</span></li>
-                <li tabindex="0" data-category="main">Chickpea Curry<span class="category-badge">Main Course</span></li>
-                <li tabindex="0" data-category="dessert">Banana Pancakes<span class="category-badge">Dessert</span></li>
-                <li tabindex="0" data-category="salad">Caprese Salad<span class="category-badge">Salad</span></li>
+                <!-- Recipes will be dynamically loaded here -->
             </ul>
         </section>
     </main>

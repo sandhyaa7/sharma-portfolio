@@ -3,30 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vegetarian Recipes</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Accessible Recipe Finder</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="form-container">
-        <h2>Add a New Recipe</h2>
-        <form id="add-recipe-form">
-            <label for="recipe-title">Recipe Title:</label>
-            <input type="text" id="recipe-title" placeholder="Recipe Title" required>
-            <label for="recipe-body">Recipe Description:</label>
-            <textarea id="recipe-body" placeholder="Recipe Description" required></textarea>
-            <button type="submit">Add Recipe</button>
 
-        </form>
+    <header>
+        <h1>Accessible Recipe Finder</h1>
+        <p>Search and explore recipes with accessibility in mind.</p>
+    </header>
 
-    </div>
+    <main>
+        <!-- Search Section -->
+        <section id="search">
+            <label for="recipe-search">Search Recipes:</label>
+            <input type="text" id="recipe-search" placeholder="Type an ingredient or name..." aria-label="Search recipes">
+        </section>
 
-    <h1>Vegetarian Recipes</h1>
+        <!-- Category Filter Section -->
+        <section id="filter">
+            <label for="category-filter">Filter by Category:</label>
+            <select id="category-filter" aria-label="Filter recipes by category">
+                <option value="all">All</option>
+                <option value="main">Main Course</option>
+                <option value="dessert">Dessert</option>
+                <option value="salad">Salad</option>
+            </select>
+        </section>
 
-    <div id="recipes-container">
-        <p>Loading recipes...</p>
-    </div>
+        <!-- Recipe List -->
+        <section id="recipes">
+            <ul id="recipe-list">
+                <li tabindex="0" data-category="main">Spaghetti Bolognese<span class="category-badge">Main Course</span></li>
+                <li tabindex="0" data-category="main">Vegetable Stir Fry<span class="category-badge">Main Course</span></li>
+                <li tabindex="0" data-category="main">Chickpea Curry<span class="category-badge">Main Course</span></li>
+                <li tabindex="0" data-category="dessert">Banana Pancakes<span class="category-badge">Dessert</span></li>
+                <li tabindex="0" data-category="salad">Caprese Salad<span class="category-badge">Salad</span></li>
+            </ul>
+        </section>
+    </main>
 
     <script src="script.js"></script>
-
 </body>
 </html>

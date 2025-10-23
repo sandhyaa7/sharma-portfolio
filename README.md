@@ -26,7 +26,7 @@ I am an aspiring web developer with a background in software development and dig
 |--------|-------------|-------------|------------------|
 | **Portfolio Website** | Personal portfolio to showcase learning journey and projects | HTML, CSS, JS, Streamlit | [GitHub](https://github.com/sandhyaa7/sharma-portfolio) ![Live](https://img.shields.io/badge/Live-Streamlit-brightgreen) |
 | **Movie Finder App** | Search and display movies using an external API | Python, Streamlit, API integration | [GitHub](https://github.com/sandhyaa7/movie-finder) ![Live](https://img.shields.io/badge/Live-Streamlit-brightgreen) |
-| *(Add more projects as you build them)* | | | |
+|| | | |
 
 ---
 

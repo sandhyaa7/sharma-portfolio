@@ -1,124 +1,97 @@
-//THE API ENDPOINT WE ARE MAKING A REQUEST TO.
-const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+// ====== Elements ======
+const recipeList = document.getElementById('recipe-list');
+const recipes = recipeList.querySelectorAll('li');
 
-//Select the container where we will display the data.
-const recipesContainer = document.getElementById('recipes-container');
+const categoryFilter = document.getElementById('category-filter');
+const searchInput = document.getElementById('recipe-search');
 
-//A function to fetch the data from the API.
-function fetchRecipes() {
-    //Show a loading message while we wait for the data.
-    recipesContainer.innerHTML = '<p>Loading recipes...</p>';
+// ====== Modal Setup ======
+const modal = document.createElement('div');
+modal.id = 'recipeModal';
+modal.classList.add('modal');
+modal.setAttribute('tabindex', '-1');
+modal.setAttribute('role', 'dialog');
+modal.setAttribute('aria-hidden', 'true');
+modal.innerHTML = `
+  <div class="modal-content" role="document">
+    <button class="close" aria-label="Close modal">&times;</button>
+    <h2 id="modalTitle">Recipe Name</h2>
+    <p id="modalDescription">Recipe details...</p>
+  </div>
+`;
+document.body.appendChild(modal);
 
-    //The fetch() function makes an HTTP GET request to the API.
-    fetch(apiUrl)
-        .then(response => {
-        //The .then() method handles the response from the server.
-        //We check if the response was successful.
-            if (!response.ok) {
-                //If not, we throw an error.
-                throw new Error("Network response was not ok");               
-            }
-            //We parse the JSON data from the response.
-            return response.json();
-        })
-        .then(data => {
-            //The next .then() handles the parsed JSON data.
-            //We now have the array of posts(our recipes).
+const modalContent = modal.querySelector('.modal-content');
+const modalTitle = modal.querySelector('#modalTitle');
+const modalDescription = modal.querySelector('#modalDescription');
+const closeButton = modal.querySelector('.close');
 
-            //We will clear the loading message.
-            recipesContainer.innerHTML = '';
+let lastFocusedElement = null;
 
-            //Now we will loop through each item in the data array.
-            data.forEach(recipe => {
-                //For each item, we create a new HTML element.
-                const recipeElement = document.createElement('div');
-                recipeElement.classList.add('recipe-card'); //We willstyle this later
-
-                //We populate the HTML with data from the API.
-                //We use the 'title ad body from the API response.
-                recipeElement.innerHTML = `
-                    <h2>${recipe.title}</h2>
-                    <p>${recipe.body}</p>                
-                `
-
-                //Finally we add the new element to our container page.
-                recipesContainer.appendChild(recipeElement); 
-                
-            });
-        })
-        .catch(error => {
-            //THe .catch() method handles any errors that occur during the fetch.
-            console.error("There was a problem with the fetch operation:", error);
-            recipesContainer.innerHTML = `<p>Sorry, something went wrong. Please try again later.</p>`;
-        });
-
+// ====== Open & Close Modal ======
+function openModal(recipeName, category) {
+    lastFocusedElement = document.activeElement;
+    modalTitle.textContent = recipeName;
+    modalDescription.textContent = `Category: ${category}`;
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    closeButton.focus();
 }
 
-// Select the form and the input fields.
-const addRecipeForm = document.getElementById('add-recipe-form');
-const recipeTitleInput = document.getElementById('recipe-title');
-const recipeBodyInput = document.getElementById('recipe-body');
+function closeModal() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    if (lastFocusedElement) lastFocusedElement.focus();
+}
 
-// Add an event listener to the form to handle when it's submitted.
-addRecipeForm.addEventListener('submit', (event) => {
-    // Prevent the default form submission behavior (which would refresh the page).
-    event.preventDefault();
-
-    // Get the values from the form inputs.
-    const newRecipe = {
-        title: recipeTitleInput.value,
-        body: recipeBodyInput.value,
-        userId: 1, // A placeholder since this API requires a userId.
-    };
-
-    // Call a new function to post the data to the API.
-    postNewRecipe(newRecipe);
+// ====== Modal Event Listeners ======
+recipes.forEach(recipe => {
+    recipe.addEventListener('click', () => openModal(recipe.textContent.trim(), recipe.dataset.category));
+    recipe.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal(recipe.textContent.trim(), recipe.dataset.category);
+        }
+    });
 });
 
-// A function to send the new recipe data to the API.
-function postNewRecipe(recipe) {
-    // The API endpoint for posting new data is the same URL.
-    const postUrl = 'https://jsonplaceholder.typicode.com/posts';
-    
-    // The fetch() function to make a POST request.
-    fetch(postUrl, {
-        method: 'POST', // The HTTP method we are using.
-        headers: {
-            'Content-Type': 'application/json', // We're sending JSON data.
-        },
-        body: JSON.stringify(recipe), // Convert the JavaScript object to a JSON string.
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // The API returns the new item with an ID.
-        // Let's add it to our display on the page.
-        // We'll add it to the top of the list for now.
-        console.log('Success! New recipe added:', data);
-        
-        // This is a common way to display the new item on the page without re-fetching all data.
-        const recipeElement = document.createElement('div');
-        recipeElement.classList.add('recipe-card');
-        recipeElement.innerHTML = `
-            <h2>${data.title}</h2>
-            <p>${data.body}</p>
-        `;
-        
-        // Use insertAdjacentElement to put the new recipe at the top.
-        recipesContainer.insertAdjacentElement('afterbegin', recipeElement);
+closeButton.addEventListener('click', closeModal);
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+});
 
-        // Clear the form fields after a successful submission.
-        recipeTitleInput.value = '';
-        recipeBodyInput.value = '';
-    })
-    .catch(error => {
-        console.error('There was a problem with the POST operation:', error);
+// Trap focus inside modal
+modal.addEventListener('keydown', (e) => {
+    const focusableElements = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+    const firstEl = focusableElements[0];
+    const lastEl = focusableElements[focusableElements.length - 1];
+
+    if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+        } else if (!e.shiftKey && document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+        }
+    }
+});
+
+// ====== Filter & Search Functionality ======
+function filterRecipes() {
+    const selectedCategory = categoryFilter.value.toLowerCase();
+    const searchTerm = searchInput.value.toLowerCase();
+
+    recipes.forEach(recipe => {
+        const name = recipe.textContent.toLowerCase();
+        const category = recipe.dataset.category.toLowerCase();
+
+        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+        const matchesSearch = name.includes(searchTerm);
+
+        recipe.style.display = matchesCategory && matchesSearch ? 'flex' : 'none';
     });
 }
 
-//Call the function to start the process when the page loads.
-fetchRecipes();
+categoryFilter.addEventListener('change', filterRecipes);
+searchInput.addEventListener('input', filterRecipes);

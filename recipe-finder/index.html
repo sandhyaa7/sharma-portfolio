@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegetarian Recipes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add a New Recipe</h2>
+        <form id="add-recipe-form">
+            <label for="recipe-title">Recipe Title:</label>
+            <input type="text" id="recipe-title" placeholder="Recipe Title" required>
+            <label for="recipe-body">Recipe Description:</label>
+            <textarea id="recipe-body" placeholder="Recipe Description" required></textarea>
+            <button type="submit">Add Recipe</button>
+
+        </form>
+
+    </div>
+
+    <h1>Vegetarian Recipes</h1>
+
+    <div id="recipes-container">
+        <p>Loading recipes...</p>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

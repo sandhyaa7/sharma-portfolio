@@ -67,16 +67,22 @@ modal.addEventListener('keydown', (e) => {
 
 // ====== Fetch & Display Recipes from API ======
 async function fetchRecipes(query, category, vegetarianOnly) {
-    const apiKey = '8f5fec2802554853a412e673880c1ff1'; // <-- Add your API key here
+    const apiKey = '8f5fec2802554853a412e673880c1ff1'; // <-- Your Spoonacular API key
     let url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=10&addRecipeInformation=true`;
 
     if (query) url += `&query=${query}`;
-    if (category && category !== 'all') url += `&type=${category}`;
+
+    // Correct category mapping
+    if (category && category !== 'all') {
+        url += `&type=${category}`; // Make sure your HTML <select> uses 'main course', 'dessert', 'salad'
+    }
+
     if (vegetarianOnly) url += `&diet=vegetarian`; // Filter for vegetarian recipes
 
     try {
         const res = await fetch(url);
         const data = await res.json();
+        console.log(data); // <-- Debug: check API response
         displayRecipes(data.results);
     } catch (error) {
         recipeList.innerHTML = "<li>Error fetching recipes. Please try again.</li>";
@@ -95,7 +101,7 @@ function displayRecipes(recipes) {
     recipes.forEach(recipe => {
         const li = document.createElement('li');
         li.tabIndex = 0;
-        li.dataset.category = recipe.dishTypes && recipe.dishTypes.length > 0 ? recipe.dishTypes[0] : 'main';
+        li.dataset.category = (recipe.dishTypes && recipe.dishTypes.length > 0) ? recipe.dishTypes[0] : 'main course';
         li.innerHTML = `${recipe.title}<span class="category-badge">${li.dataset.category}</span>`;
         recipeList.appendChild(li);
 
@@ -125,4 +131,3 @@ vegetarianCheckbox.addEventListener('change', () => {
 
 // ====== Initial Load ======
 fetchRecipes('', 'all', vegetarianCheckbox.checked);
-

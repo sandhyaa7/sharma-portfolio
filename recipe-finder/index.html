@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accessible Recipe Finder</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header>
@@ -17,7 +19,8 @@
         <!-- Search Section -->
         <section id="search">
             <label for="recipe-search">Search Recipes:</label>
-            <input type="text" id="recipe-search" placeholder="Type an ingredient or name..." aria-label="Search recipes">
+            <input type="text" id="recipe-search" placeholder="Type an ingredient or name..."
+                aria-label="Search recipes">
         </section>
 
         <!-- Category Filter Section -->
@@ -25,11 +28,18 @@
             <label for="category-filter">Filter by Category:</label>
             <select id="category-filter" aria-label="Filter recipes by category">
                 <option value="all">All</option>
-                <option value="main">Main Course</option>
+                <option value="main course">Main Course</option>
                 <option value="dessert">Dessert</option>
                 <option value="salad">Salad</option>
+                <option value="appetizer">Appetizer</option>
+                <option value="side dish">Side Dish</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="soup">Soup</option>
+                <option value="snack">Snack</option>
+                <option value="drink">Drink</option>
             </select>
         </section>
+
 
         <!-- Vegetarian Only Filter -->
         <section id="vegetarian-filter">
@@ -49,4 +59,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
